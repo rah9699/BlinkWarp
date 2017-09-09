@@ -1,0 +1,37 @@
+TODO:
+
+* Connect all this to Git somehow...
+* Fix texture tiling for the custom shader
+* Enable directly jumping from the wall jump wall (partially complete, needs air testing and tinkering with or replacing the third person controller to allow air control?)
+* Code a "target dummy"
+* Write or import custom camera
+* Code dash interaction with enemies
+* Code cooldown system?
+* Code another ability (e.g. "gatestone")?
+* Playtest? 
+* Design levels?
+* figure out how to get art assets into the game
+* figure out how to get animator
+* think about level theme
+- * I feel like a nature aesthetic would be an interesting contrast (and hey, it's an homage to Ori and Sanic, two of the games that inspired this.)
+- * assassin's creed aesthetic works too.
+* moar stuff
+
+NEEDS TESTING/DEBUGGING:
+
+* Wall jump wall
+
+TEMPORARY SOLUTION:
+
+* Add camera controls somehow (would like to update with more precise camera controls controlled with a different mouse button.)
+
+COMPLETE: 
+
+* Start project. Done!
+* Blink working. Done!
+* Other stuff from before I started this list: Done!
+* Write shader for 3D range display on interactable areas. Done!
+* Blink particles in correct direction: Done!
+
+
+Overall, this seems like an oddly effective way to show off what I can do...shaders, Unity, and design all at once...
