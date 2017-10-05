@@ -10,10 +10,10 @@ public class PlayerCharacter : MonoBehaviour {
     public GameObject BlinkDashParticle;
     public GameObject MainCamera;
     public InteractableSurface stuckTo;
+    public float floorJumpOffset; //how much off the interactive floor the player ends up after jumping
 
     //https://docs.unity3d.com/Manual/Layers.html
     int interactiveLayerMask = 1 << 8;
-
 
     public Vector3 contactPoint = new Vector3(0, 0, 0);
     public float blinkRange = 1f;
@@ -170,7 +170,7 @@ public class PlayerCharacter : MonoBehaviour {
     public void UnstickPlayerOver(InteractableSurface surface)
     {
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
-        gameObject.transform.position += surface.normal * 0.5f;
+        gameObject.transform.position += surface.normal * floorJumpOffset;
         stuckTo = null;
     }
 }

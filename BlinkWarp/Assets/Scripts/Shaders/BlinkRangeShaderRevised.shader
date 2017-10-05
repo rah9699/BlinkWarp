@@ -12,27 +12,32 @@ Shader "Unlit/BlinkRangeShaderRevised"
 		_BlinkRange("Blink Range", float) = 10.0
 		_BlinkColor("Blink Range Color", color) = (0,1,1,0.5)
 	}
-	SubShader
-	{
-		Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
-		Pass
-		{ 
-			Blend SrcAlpha OneMinusSrcAlpha
-			LOD 200
+		SubShader
+		{
+			Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
+			Pass
+			{
+				Blend SrcAlpha OneMinusSrcAlpha
+				LOD 200
 
-			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			
-			#include "UnityCG.cginc"
+				CGPROGRAM
+				#pragma vertex vert
+				#pragma fragment frag
 
-			
+				#include "UnityCG.cginc"
+
+			//credit to http://answers.unity3d.com/questions/615378/shader-cg-not-taking-tiling-into-account.html
+			//for tiling support help
+
+			float4 _MainTex_ST;
+
 			//Input to vertex shader
-			struct vertexInput
+			//Trying out using appdata_base instead
+			/*struct vertexInput
 			{
 				float4 vertex : POSITION;
 				float4 texcoord : TEXCOORD0;
-			};
+			};*/
 
 			//Input to fragment shader
 			struct vertexOutput
@@ -40,6 +45,7 @@ Shader "Unlit/BlinkRangeShaderRevised"
 				float4 pos : SV_POSITION;
 				float4 position_in_world_space : TEXCOORD0;
 				float4 tex : TEXCOORD1;
+				float2 uv : TEXCOORD2;
 			};
 
 			uniform sampler2D _MainTex;
@@ -48,12 +54,13 @@ Shader "Unlit/BlinkRangeShaderRevised"
 			uniform fixed4 _BlinkColor;
 			
 			// VERTEX SHADER
-			vertexOutput vert(vertexInput input)
+			vertexOutput vert(appdata_base input)
 			{
 				vertexOutput output;
 				output.pos = UnityObjectToClipPos(input.vertex);
 				output.position_in_world_space = mul(unity_ObjectToWorld, input.vertex);
 				output.tex = input.texcoord;
+				output.uv = TRANSFORM_TEX(input.texcoord, _MainTex);
 				return output;
 			}
 
@@ -65,7 +72,7 @@ Shader "Unlit/BlinkRangeShaderRevised"
 
 				// Return appropriate colour
 				if (dist < _BlinkRange) {
-					return tex2D(_MainTex, float4(input.tex)); // Visible
+					return tex2D(_MainTex, input.uv).rgba; // Visible
 				}
 				else {
 					float4 tex = tex2D(_MainTex, float4(input.tex)); // Outside visible range
